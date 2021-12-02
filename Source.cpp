@@ -1,157 +1,86 @@
 #include <stdio.h>
 #include <string>
 
-#define MAX_SYMBOLS 1000
+#define ARRAY_SIZE 1000
+#define MAX_SYMBOLS 256
 
-void push_back(char**& array, unsigned int* currentElementCount, char* value)
+void SetNop(char*& string, const char* inputStr)
 {
-	if ((*currentElementCount) <= 0 || array == nullptr)
-	{
-		*currentElementCount = 1;
-		array = new char* [(*currentElementCount)];
-		array[0] = value;
-	}
-	else
-	{
-		(*currentElementCount) += 1;
-		char** tempArray = array;
-		array = new char* [(*currentElementCount)];
+	int strLength = strlen(string);
+	int inputStrLength = strlen(inputStr);
 
-		for (int i = 0; i < (*currentElementCount); i++)
+	for (int i = 0; i < strLength; i++)
+	{
+		if (string[i] == 'a' || string[i] == 'A')
 		{
-			if (i < (*currentElementCount) - 1)
-				array[i] = tempArray[i];
-			else
-				array[i] = value;
-		}
-		delete[(*currentElementCount) - 1] tempArray;
-	}
-}
-
-void PrintStringsArray(char** strings, unsigned int stringsCount)
-{
-	for (int x = 0; x < stringsCount; x++)
-	{
-		int strlength = strlen(strings[x]);
-		for (int y = 0; y < strlength; y++)
-			printf("%c", strings[x][y]);
-	}
-}
-
-void SetNop(char*& string, unsigned int& strlenght)
-{
-	int aCount = 0;
-	for (int i = 0; i < strlenght; i++)
-		if (string[i] == 'A' || string[i] == 'a')
-			aCount++;
-
-	char* tempArray = string;
-	unsigned int newStrLenght = strlenght + 2 * aCount;
-
-	string = new char[newStrLenght];
-	int id = 0;
-	for (int i = 0; i < newStrLenght; i++)
-	{
-		if (tempArray[i] == 'A' || tempArray[i] == 'a')
-		{
-			string[id] = 'N';
-			string[id + 1] = 'O';
-			string[id + 2] = 'P';
-			id += 2;
-		}
-		else
-		{
-			string[id] = tempArray[i];
-		}
-		id++;
-	}
-	strlenght = newStrLenght;
-	delete[strlenght - 1] tempArray;
-}
-
-void SetNop(char*& string)
-{
-	int aCount = 0;
-
-	unsigned int strlenght = strlen(string);
-	for (int i = 0; i < strlenght; i++)
-		if (string[i] == 'A' || string[i] == 'a')
-			aCount++;
-	if (aCount > 0)
-	{
-		char* tempArray = string;
-		unsigned int newStrLenght = strlenght + 2 * aCount;
-
-		string = new char[newStrLenght];
-		int id = 0;
-		for (int i = 0; i < newStrLenght; i++)
-		{
-			if (tempArray[i] == 'A' || tempArray[i] == 'a')
+			memcpy(string + i + inputStrLength, string + i + 1, strLength - i);
+			strLength += inputStrLength;
+			for (int j = 0; j < inputStrLength; j++)
 			{
-				string[id] = 'N';
-				string[id + 1] = 'O';
-				string[id + 2] = 'P';
-				id += 2;
+				string[i] = inputStr[j];
+				i++;
 			}
-			else
-			{
-				string[id] = tempArray[i];
-			}
-			id++;
 		}
-		delete[strlenght] tempArray;
 	}
-}
 
+}
 
 int main()
 {
 	FILE* filePointer;
 	fopen_s(&filePointer, "data.txt", "rt");
 
-	unsigned int stringsCount = 0;
-	char** strings = nullptr;
+	unsigned int stringsCount = ARRAY_SIZE;
+	char** strings = new char*[stringsCount];
+	for (int i = 0; i < stringsCount; i++)
+		strings[i] = nullptr;
 
+	int id = 0;
 	while (!feof(filePointer))
 	{
-		push_back(strings, &stringsCount, nullptr);
-		strings[stringsCount - 1] = new char[MAX_SYMBOLS];
-		fgets(strings[stringsCount - 1], MAX_SYMBOLS, filePointer);
-
-		SetNop(strings[stringsCount - 1]);
+		strings[id] = new char[MAX_SYMBOLS];
+		fgets(strings[id], MAX_SYMBOLS, filePointer);
+		SetNop(strings[id], "<i><b>NOP</b></i>");
+		id++;
 	}
-
 	fclose(filePointer);
 
 	fopen_s(&filePointer, "site.html", "wt");
 
-	fputs("<HTML>", filePointer);
-
-	//fputs("<HEAD>", filePointer);
-
-	//fputs("<TITLE>Заголовок</TITLE>", filePointer);
-
-	//fputs("</HEAD>", filePointer);
-	fputs("<BODY>", filePointer);
-
+	fputs("<HTML>\n", filePointer);
+	fputs("    <BODY>\n", filePointer);
 	for (int i = 0; i < stringsCount; i++)
 	{
-		if(i == 0)
-			fprintf(filePointer, "<H1> %s <BR></H1>", strings[i]);
+		if (strings[i])
+		{
+			if (i == 0)
+			{
+				int len = strlen(strings[i]);
+				strings[i][len - 1] = '\0';
+				fprintf(filePointer, "        <H1> %s <BR></H1>\n", strings[i]);
+				strings[i][len - 1] = '\n';
+			}
+			else
+			{
+				int len = strlen(strings[i]);
+				strings[i][len - 1] = '\0';
+				fprintf(filePointer, "        %s <BR>\n", strings[i]);
+				strings[i][len - 1] = '\n';
+			}
+		}
 		else
-			fprintf(filePointer, "%s <BR>", strings[i]);
+			break;
+
 	}
-	fputs("</BODY>", filePointer);
-
+	fputs("    </BODY>", filePointer);
+	fputs("\n", filePointer);
 	fputs("</HTML>", filePointer);
-	//PrintStringsArray(strings, stringsCount);
 
-	//unsigned int tempStrLenght = 4;
-	//char* tempStr = new char[tempStrLenght]{ 'h', 'A', 'l', 'a' };
 
-	//SetNop(tempStr, tempStrLenght);
+	char* tempStr = new char[MAX_SYMBOLS] {"Hola, what are you doing?"};
 
-	//for (int i = 0; i < tempStrLenght; i++)
-	//	printf("%c", tempStr[i]);
+	SetNop(tempStr, "HER");
 
+	for (int i = 0; i < MAX_SYMBOLS; i++)
+		printf("%c", tempStr[i]);
 }
