@@ -1,0 +1,10 @@
+﻿  Source.cpp
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(20,21): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(22,10): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(33,20): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(44,20): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(53,20): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(77,20): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(87,21): warning C4018: <: несоответствие типов со знаком и без знака
+E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\BasicsOfProgramming-Lab11-StringsAndTextFiles\Source.cpp(137,20): warning C4018: <: несоответствие типов со знаком и без знака
+  BasicsOfProgramming-Lab11-StringsAndTextFiles.vcxproj -> E:\Университет\Основы алгоритмизации и программирования\Labs\BasicsOfProgramming-Lab11-StringsAndTextFiles\Debug\BasicsOfProgramming-Lab11-StringsAndTextFiles.exe

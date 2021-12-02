@@ -1,0 +1,157 @@
+#include <stdio.h>
+#include <string>
+
+#define MAX_SYMBOLS 1000
+
+void push_back(char**& array, unsigned int* currentElementCount, char* value)
+{
+	if ((*currentElementCount) <= 0 || array == nullptr)
+	{
+		*currentElementCount = 1;
+		array = new char* [(*currentElementCount)];
+		array[0] = value;
+	}
+	else
+	{
+		(*currentElementCount) += 1;
+		char** tempArray = array;
+		array = new char* [(*currentElementCount)];
+
+		for (int i = 0; i < (*currentElementCount); i++)
+		{
+			if (i < (*currentElementCount) - 1)
+				array[i] = tempArray[i];
+			else
+				array[i] = value;
+		}
+		delete[(*currentElementCount) - 1] tempArray;
+	}
+}
+
+void PrintStringsArray(char** strings, unsigned int stringsCount)
+{
+	for (int x = 0; x < stringsCount; x++)
+	{
+		int strlength = strlen(strings[x]);
+		for (int y = 0; y < strlength; y++)
+			printf("%c", strings[x][y]);
+	}
+}
+
+void SetNop(char*& string, unsigned int& strlenght)
+{
+	int aCount = 0;
+	for (int i = 0; i < strlenght; i++)
+		if (string[i] == 'A' || string[i] == 'a')
+			aCount++;
+
+	char* tempArray = string;
+	unsigned int newStrLenght = strlenght + 2 * aCount;
+
+	string = new char[newStrLenght];
+	int id = 0;
+	for (int i = 0; i < newStrLenght; i++)
+	{
+		if (tempArray[i] == 'A' || tempArray[i] == 'a')
+		{
+			string[id] = 'N';
+			string[id + 1] = 'O';
+			string[id + 2] = 'P';
+			id += 2;
+		}
+		else
+		{
+			string[id] = tempArray[i];
+		}
+		id++;
+	}
+	strlenght = newStrLenght;
+	delete[strlenght - 1] tempArray;
+}
+
+void SetNop(char*& string)
+{
+	int aCount = 0;
+
+	unsigned int strlenght = strlen(string);
+	for (int i = 0; i < strlenght; i++)
+		if (string[i] == 'A' || string[i] == 'a')
+			aCount++;
+	if (aCount > 0)
+	{
+		char* tempArray = string;
+		unsigned int newStrLenght = strlenght + 2 * aCount;
+
+		string = new char[newStrLenght];
+		int id = 0;
+		for (int i = 0; i < newStrLenght; i++)
+		{
+			if (tempArray[i] == 'A' || tempArray[i] == 'a')
+			{
+				string[id] = 'N';
+				string[id + 1] = 'O';
+				string[id + 2] = 'P';
+				id += 2;
+			}
+			else
+			{
+				string[id] = tempArray[i];
+			}
+			id++;
+		}
+		delete[strlenght] tempArray;
+	}
+}
+
+
+int main()
+{
+	FILE* filePointer;
+	fopen_s(&filePointer, "data.txt", "rt");
+
+	unsigned int stringsCount = 0;
+	char** strings = nullptr;
+
+	while (!feof(filePointer))
+	{
+		push_back(strings, &stringsCount, nullptr);
+		strings[stringsCount - 1] = new char[MAX_SYMBOLS];
+		fgets(strings[stringsCount - 1], MAX_SYMBOLS, filePointer);
+
+		SetNop(strings[stringsCount - 1]);
+	}
+
+	fclose(filePointer);
+
+	fopen_s(&filePointer, "site.html", "wt");
+
+	fputs("<HTML>", filePointer);
+
+	//fputs("<HEAD>", filePointer);
+
+	//fputs("<TITLE>Заголовок</TITLE>", filePointer);
+
+	//fputs("</HEAD>", filePointer);
+	fputs("<BODY>", filePointer);
+
+	for (int i = 0; i < stringsCount; i++)
+	{
+		if(i == 0)
+			fprintf(filePointer, "<H1> %s <BR></H1>", strings[i]);
+		else
+			fprintf(filePointer, "%s <BR>", strings[i]);
+	}
+	fputs("</BODY>", filePointer);
+
+	fputs("</HTML>", filePointer);
+	//PrintStringsArray(strings, stringsCount);
+
+	//unsigned int tempStrLenght = 4;
+	//char* tempStr = new char[tempStrLenght]{ 'h', 'A', 'l', 'a' };
+
+	//SetNop(tempStr, tempStrLenght);
+
+	//for (int i = 0; i < tempStrLenght; i++)
+	//	printf("%c", tempStr[i]);
+
+}
